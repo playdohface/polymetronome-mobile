@@ -1,0 +1,7 @@
+{
+  "name": "Polymetronome",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
