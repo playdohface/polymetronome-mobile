@@ -1,0 +1,38 @@
+<app-header [title]="'Metronome'"></app-header>
+
+
+<div class="playvolume">
+  <div class="playbutton">
+      <button (click)="ac.togglePlay()">
+          <span *ngIf="ac.isPlaying">Stop</span>
+          <span *ngIf="!ac.isPlaying">Play</span>
+      </button>
+  </div>
+
+  <div class="volumecontrol">
+  <div class = "volumelabel">Main Volume:
+      <span class = "volumeamount">{{volumeSlider}}%</span>
+  </div>
+  <input class="volumeslider" #mainVolume type="range" min="0" max="100" (change)="setVolume(mainVolume.value)" [(ngModel)]="volumeSlider"><br>
+  </div>
+</div>
+
+<div class="tempocontrol">
+  <app-tap-tempo (newTempo)="tapTempo($event)"></app-tap-tempo>
+
+  <div class="temposection">
+      <div class="tempolabel">Tempo: <span class="bpmamount">{{tempoSlider}} bpm</span></div>
+      <input #bpmSlider type="range" min="30" max="400" (change)="setBpm(bpmSlider.value)" [(ngModel)] = "tempoSlider">
+  </div>
+
+</div>
+
+<div class="newlanecontrol">
+<button (click)="addNewLane(newLaneSubdiv.value)">Add New Lane</button>
+with <input type="number" min="1" #newLaneSubdiv> Subdivisions
+</div>
+<!-- <div #laneContainer></div> -->
+
+<div class="lanecontainer">
+<ng-template laneView></ng-template>
+</div>

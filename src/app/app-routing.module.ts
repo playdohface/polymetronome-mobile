@@ -1,16 +1,36 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { GuideComponent } from './component/guide/guide.component';
+import { MetronomeComponent } from './component/metronome/metronome.component';
+import { SettingsComponent } from './component/settings/settings.component';
+import { AboutComponent } from './component/about/about.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/Inbox',
+    redirectTo: 'metronome',
     pathMatch: 'full'
   },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  }
+    path: 'metronome',
+    component: MetronomeComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'guide',
+    component: GuideComponent ,
+    pathMatch: 'full'
+  },
+  {
+    path: 'about',
+    component: AboutComponent ,
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({
