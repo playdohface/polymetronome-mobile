@@ -15,6 +15,7 @@ export class MetronomeComponent implements OnInit {
   @ViewChild(LaneViewDirective, {static: true}) laneViews!: LaneViewDirective;
   audioContext!: AudioContext;
 
+  public tempoSelectIsOpen = false;
   public volumeSlider = 75;
   public tempoSlider = 120;
 

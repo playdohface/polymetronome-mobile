@@ -1,38 +1,79 @@
-<app-header [title]="'Metronome'"></app-header>
 
 
-<div class="playvolume">
-  <div class="playbutton">
-      <button (click)="ac.togglePlay()">
-          <span *ngIf="ac.isPlaying">Stop</span>
-          <span *ngIf="!ac.isPlaying">Play</span>
-      </button>
+<app-header [title]="'Polymetronome'"></app-header>
+<ion-content>
+<ion-fab slot="fixed" vertical="bottom" horizontal="center">
+  <ion-fab-button (click)="ac.togglePlay()">
+    <ion-icon *ngIf="!ac.isPlaying" name="play"></ion-icon>
+    <ion-icon *ngIf="ac.isPlaying" name="stop"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button id="addNewLane" size="small">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+<ion-popover trigger="addNewLane"  side="top" alignment="start">
+  <ng-template>
+    <div class="newlanecontrol">
+      <button (click)="addNewLane(newLaneSubdiv.value)">Add New Lane</button>
+      with <input type="number" min="1" #newLaneSubdiv> Subdivisions
+      </div>
+</ng-template>
+</ion-popover>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="start">
+  <ion-fab-button id="volumeChange" size="small">
+    <ion-icon *ngIf="volumeSlider === 0" name="volume-mute"></ion-icon>
+    <ion-icon *ngIf="volumeSlider > 0 && volumeSlider <= 35" name="volume-low"></ion-icon>
+    <ion-icon *ngIf="volumeSlider > 35 && volumeSlider <= 80" name="volume-medium"></ion-icon>
+    <ion-icon *ngIf="volumeSlider > 80" name="volume-high"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+<ion-popover trigger="volumeChange"  side="top" alignment="start">
+  <ng-template>
+  <div class="playvolume">
+    <div class="volumecontrol">
+    <div class = "volumelabel">Main Volume:
+        <span class = "volumeamount">{{volumeSlider}}%</span>
+    </div>
+    <input class="volumeslider" #mainVolume type="range" min="0" max="100" (change)="setVolume(mainVolume.value)" [(ngModel)]="volumeSlider"><br>
+    </div>
   </div>
+</ng-template>
+</ion-popover>
 
-  <div class="volumecontrol">
-  <div class = "volumelabel">Main Volume:
-      <span class = "volumeamount">{{volumeSlider}}%</span>
-  </div>
-  <input class="volumeslider" #mainVolume type="range" min="0" max="100" (change)="setVolume(mainVolume.value)" [(ngModel)]="volumeSlider"><br>
-  </div>
-</div>
+  <ion-button id="tempoSelect">Tempo: {{tempoSlider}} bpm</ion-button>
 
-<div class="tempocontrol">
-  <app-tap-tempo (newTempo)="tapTempo($event)"></app-tap-tempo>
+  <ion-popover trigger="tempoSelect" reference="trigger" side="bottom" alignment="center" [isOpen]="tempoSelectIsOpen">
+    <ng-template>
+      
+      <ion-range #bpmSlider min="30" max="400" (ionKnobMoveEnd)="setBpm(bpmSlider.value.toString(10))" [(ngModel)] = "tempoSlider">
+        
+
+      </ion-range>
+      <app-tap-tempo (newTempo)="tapTempo($event)"></app-tap-tempo>
+    </ng-template>
+  </ion-popover>
+
+
+
+
+<!-- <div class="tempocontrol">
+  
 
   <div class="temposection">
       <div class="tempolabel">Tempo: <span class="bpmamount">{{tempoSlider}} bpm</span></div>
       <input #bpmSlider type="range" min="30" max="400" (change)="setBpm(bpmSlider.value)" [(ngModel)] = "tempoSlider">
   </div>
 
-</div>
+</div> -->
 
-<div class="newlanecontrol">
-<button (click)="addNewLane(newLaneSubdiv.value)">Add New Lane</button>
-with <input type="number" min="1" #newLaneSubdiv> Subdivisions
-</div>
+
 <!-- <div #laneContainer></div> -->
 
 <div class="lanecontainer">
 <ng-template laneView></ng-template>
 </div>
+
+</ion-content>
